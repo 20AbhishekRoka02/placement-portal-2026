@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 from pathlib import Path
 
@@ -28,7 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/app/static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Application definition
 
@@ -49,7 +52,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -81,9 +87,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
-import os
-from dotenv import load_dotenv
-load_dotenv()
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
