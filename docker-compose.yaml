@@ -36,7 +36,7 @@ services:
     build:
       context: ./backend
     container_name: flower
-    command: celery -A backend flower --port=5555 --basic_auth=admin:password
+    command: celery -A backend flower --port=5555 --basic_auth=admin:password --broker=redis://redis:6379/0
     ports:
       - "5555:5555"
     volumes:
